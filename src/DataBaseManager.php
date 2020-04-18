@@ -21,20 +21,16 @@ class DataBaseManager {
      * @param $mysqli
      */
     private function __construct() {
-        $this->mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DB);
-        if ($this->mysqli->connect_errno) {
-            echo "Fallo al conectar a MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error;
-        }
-
-        if (!$this->mysqli->set_charset('utf8')) {
-            printf("Error cargando el conjunto de caracteres utf8: %s\n", $this->mysqli->error);
-            exit;
-        }
+        
     }
 
     public function __destruct() {
         self::$_instance = null;
         $this->mysqli = null;
+    }
+
+    public function setMysqli($new_mysqli){
+        $this->mysqli = $new_mysqli;
     }
 
     public static function getInstance() {
@@ -49,16 +45,18 @@ class DataBaseManager {
     }
 
     public function insertQuery($query) {
-        return $this->mysqli->query($query);
+        if($query != null){
+          return $this->mysqli->query($query); 
+        }
+        return null;
+        
     }
 
     public function realizeQuery($query) {
-        if ($result = $this->mysqli->query($query)) {
-            $result = $result->fetch_all(MYSQLI_ASSOC);
-            return $result;
-        } else {
-            return null;
-        }
+        if($query != null){
+            return $this->mysqli->query($query); 
+          }
+          return null;
     }
 
     public function close() {
