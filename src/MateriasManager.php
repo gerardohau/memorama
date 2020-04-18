@@ -99,7 +99,6 @@ class MateriasManager{
         else{
             if(is_array($resultado)){
                 $matterList[] = $this->setValuesToResult($resultado);
-                print(json_encode($matterList));
                 return json_encode($matterList);
             }
             else{
