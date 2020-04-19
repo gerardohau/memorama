@@ -12,7 +12,7 @@ class PuntajesManajer {
     private $dbManager;
     private static $_instance;
 
-    public function __construct($dbManager) {
+    private function __construct($dbManager) {
         $this->dbManager = $dbManager;
     }
 
@@ -24,9 +24,9 @@ class PuntajesManajer {
         self::$_instance = null;
     }
 
-    public static function getInstance() {
+    public static function getInstance($dbManager) {
         if (self::$_instance == null) {
-            self::$_instance = new PuntajesManajer(DatabaseManager::getInstance());
+            self::$_instance = new PuntajesManajer($dbManager);
         }
         return self::$_instance;
     }
