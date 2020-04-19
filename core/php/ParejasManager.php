@@ -13,8 +13,8 @@ class ParejasManager {
     private $dbManager;
     private static $_instance;
 
-    private function __construct() {
-        $this->dbManager = DataBaseManager::getInstance();
+    private function __construct($dbManager) {
+        $this->dbManager = $dbManager;
     }
 
     public function __destruct() {
@@ -22,9 +22,9 @@ class ParejasManager {
         self::$_instance = null;
     }
 
-    public static function getInstance() {
+    public static function getInstance($dbManager) {
         if (self::$_instance == null) {
-            self::$_instance = new ParejasManager();
+            self::$_instance = new ParejasManager($dbManager);
         }
         return self::$_instance;
     }
@@ -58,8 +58,7 @@ class ParejasManager {
     }
 
     public function updatePareja($id, $idMatter, $concept, $definition) {
-        $query = "UPDATE parejas set idmateria = '$idMatter' , concepto = 
-        '$concept' , descripcion = '$definition' WHERE id=" . intval($id);
+        $query = "UPDATE parejas set idmateria = '$idMatter' , concepto = '$concept' , descripcion = '$definition' WHERE id=" . intval($id);
 
         $resultado = $this->dbManager->insertQuery($query);
 
