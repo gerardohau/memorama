@@ -14,7 +14,8 @@ final class PuntajesManajerTest extends TestCase
 
     private function setupMockito(){
         $this->dbManager = Mockery::mock(DatabaseManager::class);
-        $this->puntajesManajer = new PuntajesManajer($this->dbManager);         
+        $this->puntajesManajer = PuntajesManajer::getInstance($this->dbManager);  
+        $this->puntajesManajer->setDBManager($this->dbManager);       
     }
 
     public function testSetPuntajePositivo(){
