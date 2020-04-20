@@ -13,7 +13,7 @@ class MateriasManager{
     private static $_instance;
 
     private function __construct(){
-        $this->dbManager = DataBaseManager::getInstance();
+        $this->dbManager = null;
     }
 
     public function __destruct(){
@@ -29,6 +29,10 @@ class MateriasManager{
             self::$_instance = new MateriasManager();
         }
         return self::$_instance;
+    }
+
+    public function setDBManager($newDBManager){
+        $this->dbManager = $newDBManager;
     }
 
     public function getMateria($idmateria){

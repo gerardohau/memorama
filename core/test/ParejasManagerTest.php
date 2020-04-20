@@ -20,7 +20,7 @@ class ParejasManagerTest extends TestCase{
         $this->parejasManager->__destruct();
     }
 
-    public function test_EjecucionDelMetodoGetParejaConResultadosVacios(){
+    public function testGetPareja(){
         $this->dbManager->shouldReceive('realizeQuery')
                         ->once()
                         ->with("SELECT concepto,descripcion, FROM parejas WHERE id='1' AND idmateria= '1'");
@@ -36,7 +36,7 @@ class ParejasManagerTest extends TestCase{
 
     }
 
-    public function test_EjecucionDelMetodoGetParejaRetornandoDatos(){
+    public function testGetParejaNegativo(){
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with("SELECT concepto,descripcion, FROM parejas WHERE id='1' AND idmateria= '1'")
                         ->once()
@@ -55,7 +55,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
 
-    public function test_EjecucionDelMetodoSetPareja(){
+    public function testSetPareja(){
         $this->dbManager->shouldReceive('insertQuery')
                         ->once()
                         ->with("INSERT INTO parejas (concepto,descripcion,idmateria) VALUES('concepto 1','descripcion 1','1')")
@@ -72,7 +72,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
 
-    public function test_EjecucionDelMetodoSetParejaFalse(){
+    public function testSetParejaNagativo(){
         $this->dbManager->shouldReceive('insertQuery')
                         ->once()
                         ->with("INSERT INTO parejas (concepto,descripcion,idmateria) VALUES('concepto 1','descripcion 1','1')")
@@ -89,7 +89,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
 
-    public function test_EjecucionDelMetodoUpdateParejas(){
+    public function testUpdatePareja(){
         $this->dbManager->shouldReceive('insertQuery')
                         ->once()
                         ->with("UPDATE parejas set idmateria = '1' , concepto = 'concepto 1' , descripcion = 'descripcion 1' WHERE id=1")
@@ -106,7 +106,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
 
-    public function test_EjecucionDelMetodoUpdateParejaFalse(){
+    public function testUpdateParejaNegativo(){
         $this->dbManager->shouldReceive('insertQuery')
                         ->once()
                         ->with("UPDATE parejas set idmateria = '1' , concepto = 'concepto 1' , descripcion = 'descripcion 1' WHERE id=1")
@@ -122,7 +122,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
     
-    public function test_EjecucionDelMetodoDeleteParejas(){
+    public function testDeletePareja(){
         $this->dbManager->shouldReceive('insertQuery')
                         ->once()
                         ->with("DELETE FROM parejas WHERE id='1' AND idmateria='1'")
@@ -139,7 +139,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
 
-    public function test_EjecucionDelMetodoDeleteParejaFalse(){
+    public function testDeleteParejaNegativo(){
         $this->dbManager->shouldReceive('insertQuery')
                         ->once()
                         ->with("DELETE FROM parejas WHERE id='1' AND idmateria='1'")
@@ -155,7 +155,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
 
-    public function test_EjecucionDelMetodoGetAllParejasTheMateria(){
+    public function testGetAllParejasTheMateria(){
         $this->dbManager->shouldReceive('realizeQuery')
                         ->once()
                         ->with("SELECT concepto,descripcion FROM parejas WHERE idmateria = 1")
@@ -180,7 +180,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
     
-    public function test_EjecucionDelMetodoGetAllParejasTheMateriaFalse(){
+    public function testGetAllParejasTheMateriaNegativo(){
         $this->dbManager->shouldReceive('realizeQuery')
                         ->once()
                         ->with("SELECT concepto,descripcion FROM parejas WHERE idmateria = 1")
@@ -196,7 +196,7 @@ class ParejasManagerTest extends TestCase{
         );
     }
 
-    public function test_EjecucionDelMetodoGetAllParejas(){
+    public function testGetAllParejas(){
         $this->dbManager->shouldReceive('realizeQuery')
         ->with("SELECT * FROM parejas")
         ->once()
@@ -228,7 +228,7 @@ class ParejasManagerTest extends TestCase{
         
     }
     
-    public function test_EjecucionDelMetodoGetAllParejasFalse(){
+    public function testGetAllParejasNegativo(){
         $this->dbManager->shouldReceive('realizeQuery')
         ->with("SELECT * FROM parejas")
         ->once()

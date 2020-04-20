@@ -1,5 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
+
+require_once("core\php\DataBaseManager.php");
 final class MateriasManagerTest extends TestCase
 {
     private $materiasManager;
@@ -99,6 +101,6 @@ final class MateriasManagerTest extends TestCase
 
     protected function tearDown() : void
     {
-        \Mockery::close();
+        $this->materiasManager->__destruct();
     }
 }
