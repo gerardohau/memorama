@@ -19,20 +19,29 @@ final class DatabaseManagerTest extends TestCase
   
   public function testInsertQuery(){
       $this->mysqli->shouldReceive('query')->with("INSERT INTO materias(nombre) VALUES ('Psicologia')")->andReturn(true);
-      $this->assertJson( 
-        $this->dbManager->insertQuery("INSERT INTO materias(nombre) VALUES ('Psicologia')")
-      ); 
       $this->assertEquals( 
-        false, $this->dbManager->insertQuery("")
-      );   
+        true, $this->dbManager->insertQuery("INSERT INTO materias(nombre) VALUES ('Psicologia')")
+      );  
       
   }
+
+  public function testInsertQueryNegativo(){
+    $this->mysqli->shouldReceive('query')->with("INSERT INTO materias(nombre) VALUES ('Psicologia')")->andReturn(true); 
+    $this->assertEquals( 
+      false, $this->dbManager->insertQuery("")
+    );   
+    
+}
    
     public function testRealizeQuery(){
       $this->mysqli->shouldReceive('query')->with("SELECT * FROM materias where id = 2")->andReturn(array());
       $this->assertEquals( 
         array(),$this->dbManager->realizeQuery("SELECT * FROM materias where id = 2")
       ); 
+    }
+
+    public function testRealizeQueryNegativo(){
+      $this->mysqli->shouldReceive('query')->with("SELECT * FROM materias where id = 2")->andReturn(array());
       $this->assertEquals( 
         false, $this->dbManager->realizeQuery("")
       ); 
@@ -43,6 +52,11 @@ final class DatabaseManagerTest extends TestCase
       $this->assertEquals( 
         null,$this->dbManager->close()
       ); 
+      
+    }
+
+    public function testCloseNegativo(){
+      $this->mysqli->shouldReceive('close')->andReturn(false);
       $this->assertEquals( 
         false, $this->dbManager->close()
       ); 
