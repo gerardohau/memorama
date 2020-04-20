@@ -13,8 +13,8 @@ class PuntajesManajer {
     private $dbManager;
     private static $_instance;
 
-    private function __construct() {
-        $this->dbManager = DataBaseManager::getInstance();
+    private function __construct($dbManager) {
+        $this->dbManager = $dbManager;
     }
 
     public function __destruct() {
@@ -25,11 +25,15 @@ class PuntajesManajer {
         self::$_instance = null;
     }
 
-    public static function getInstance() {
+    public static function getInstance($dbManager) {
         if (self::$_instance == null) {
-            self::$_instance = new PuntajesManajer();
+            self::$_instance = new PuntajesManajer($dbManager);
         }
         return self::$_instance;
+    }
+
+    public function setDBManager($newDBManager){
+        $this->dbManager = $newDBManager;
     }
 
     public function setPuntaje($idUsuario,$idMateria,$fecha,$dificultad,$puntaje,$foundPeers){
@@ -44,7 +48,9 @@ class PuntajesManajer {
     }
 
     public function deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad){
-        $query = "DELETE FROM puntajes WHERE id_usuario = '$idUsuario' AND id_materia = '$idMateria' AND fecha='$fecha' AND '$dificultad'";
+        
+        $query = "DELETE FROM puntajes WHERE id_usuario = '$idUsuario' 
+        AND id_materia = '$idMateria' AND fecha='$fecha' AND dificultad = '$dificultad'";
 
         $resultado = $this->dbManager->insertQuery($query);
 
@@ -122,7 +128,8 @@ class PuntajesManajer {
     }
 
     public function getAllPuntajeForUsuarioAndMateriaAndDificultad($idUsuario,$idMateria,$dificultad){
-        $query = "SELECT * FROM puntajes WHERE id_usuario='$idUsuario' AND id_materia='$idMateria' AND dificultad='$dificultad'";
+        $query = "SELECT * FROM puntajes WHERE id_usuario='$idUsuario' AND id_materia='$idMateria' 
+        AND dificultad='$dificultad'";
 
         $resultado = $this->dbManager->realizeQuery($query);
 

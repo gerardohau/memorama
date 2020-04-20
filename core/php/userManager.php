@@ -13,7 +13,7 @@ class UserManager{
     private static $_instance;
 
     private function __construct(){
-        $this->dbManager = DataBaseManager::getInstance();
+        $this->dbManager = null;
     }
 
     public function __destruct(){
@@ -28,13 +28,17 @@ class UserManager{
         return self::$_instance;
     }
 
+    public function setDBManager($newDBManager){
+        $this->dbManager = $newDBManager;
+    }
+
     public function setUser($name, $password, $tipo){
         $query = "INSERT INTO usuario (nombre, clave, tipo) VALUES('$name','$password','$tipo')";
 
         $resultado = $this->dbManager->insertQuery($query);
 
         if(!is_bool($resultado)){
-            return "$resultado";
+            return $resultado;
         }
         return "";
 
@@ -93,7 +97,7 @@ class UserManager{
         $resultado = $this->dbManager->insertQuery($query);
 
         if(!is_bool($resultado)){
-            return "$resultado";
+            return $resultado;
         }
 
         return "";

@@ -1,5 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
+
+require_once("core\php\DataBaseManager.php");
 class PuntajesManajerTest extends TestCase
 {
     private $puntajesManajer;
@@ -31,10 +33,7 @@ class PuntajesManajerTest extends TestCase
         $puntaje =100;
         $foundPeers =10;
         
-        $query = "INSERT INTO puntajes (id_usuario,id_materia,fecha,dificultad,puntaje,parejas_encontradas) 
-        VALUES('1','1','2020-04-18 02:04:47','medio',100,10)";
-        
-        
+        $query = "INSERT INTO puntajes (id_usuario,id_materia,fecha,dificultad,puntaje,parejas_encontradas) VALUES('1','1','2020-04-18 02:04:47','medio',100,10)";
         
         $this->dbManager->shouldReceive('insertQuery')
                         ->with($query)
@@ -62,8 +61,7 @@ class PuntajesManajerTest extends TestCase
         $puntaje ='';
         $foundPeers =10;
         
-        $query = "INSERT INTO puntajes (id_usuario,id_materia,fecha,dificultad,puntaje,parejas_encontradas) 
-        VALUES('','','2020-04-18 02:04:47','medio',,10)";
+        $query = "INSERT INTO puntajes (id_usuario,id_materia,fecha,dificultad,puntaje,parejas_encontradas) VALUES('','','2020-04-18 02:04:47','medio',,10)";
 
         
 
