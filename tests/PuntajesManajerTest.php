@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-final class PuntajesManajerTest extends TestCase
+class PuntajesManajerTest extends TestCase
 {
     private $puntajesManajer;
     private $dbManager;
@@ -12,9 +12,15 @@ final class PuntajesManajerTest extends TestCase
              "dificultad" => "medio","puntaje" => "20","parejas_encontradas" => "8"]  
     ];
 
-    private function setupMockito(){
+    protected function setUp(): void
+    {
         $this->dbManager = Mockery::mock(DatabaseManager::class);
-        $this->puntajesManajer = new PuntajesManajer($this->dbManager);         
+        $this->puntajesManajer = PuntajesManajer::getInstance($this->dbManager);  
+    }
+
+    protected function tearDown(): void
+    {
+        $this->puntajesManajer->__destruct();
     }
 
     public function testSetPuntajePositivo(){
@@ -28,7 +34,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "INSERT INTO puntajes (id_usuario,id_materia,fecha,dificultad,puntaje,parejas_encontradas) 
         VALUES('1','1','2020-04-18 02:04:47','medio',100,10)";
         
-        $this->setupMockito();
+        
         
         $this->dbManager->shouldReceive('insertQuery')
                         ->with($query)
@@ -59,7 +65,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "INSERT INTO puntajes (id_usuario,id_materia,fecha,dificultad,puntaje,parejas_encontradas) 
         VALUES('','','2020-04-18 02:04:47','medio',,10)";
 
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('insertQuery')
                         ->with($query)
@@ -88,7 +94,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "DELETE FROM puntajes WHERE id_usuario = '1' 
         AND id_materia = '1' AND fecha='2020-04-18 02:04:47' AND dificultad = 'medio'";
 
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('insertQuery')
                         ->with($query)
@@ -115,7 +121,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "DELETE FROM puntajes WHERE id_usuario = '' 
         AND id_materia = '' AND fecha='$fecha' AND dificultad = ''";
 
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('insertQuery')
                         ->with($query)
@@ -137,7 +143,7 @@ final class PuntajesManajerTest extends TestCase
         $idUsuario =1;
         $query = "SELECT * FROM puntajes WHERE id_usuario='1'";
         
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -161,7 +167,7 @@ final class PuntajesManajerTest extends TestCase
         $idUsuario =null;
         $query = "SELECT * FROM puntajes WHERE id_usuario=''";
         $mensaje = "tabla materia vacia";
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -180,7 +186,7 @@ final class PuntajesManajerTest extends TestCase
         $idMateria =1;
         $query = "SELECT * FROM puntajes WHERE id_materia='1'";
         
-        $this->setupMockito();
+        
                  
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -205,7 +211,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "SELECT * FROM puntajes WHERE id_materia=''";
         $mensaje = "tabla materia varia";
         
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -225,7 +231,7 @@ final class PuntajesManajerTest extends TestCase
         $idUsuario = 1;
         $query = "SELECT * FROM puntajes WHERE id_usuario='1' AND id_materia='1'";
         
-        $this->setupMockito();
+        
                  
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -252,7 +258,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "SELECT * FROM puntajes WHERE id_usuario='' AND id_materia=''";
         $mensaje = "tabla materia varia";
         
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -272,7 +278,7 @@ final class PuntajesManajerTest extends TestCase
         $idMateria =1;
         $dificultad = "medio";
         $query = "SELECT * FROM puntajes WHERE id_materia='1' AND dificultad='medio'";
-        $this->setupMockito();
+        
                  
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -299,7 +305,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "SELECT * FROM puntajes WHERE id_materia='' AND dificultad=''";
         $mensaje = "tabla materia varia";
         
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -322,7 +328,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "SELECT * FROM puntajes WHERE id_usuario='1' AND id_materia='1' 
         AND dificultad='medio'";
         
-        $this->setupMockito();
+        
                  
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)
@@ -351,7 +357,7 @@ final class PuntajesManajerTest extends TestCase
         $query = "SELECT * FROM puntajes WHERE id_usuario='' AND id_materia='' 
         AND dificultad=''";
         $mensaje = "tabla materia varia";
-        $this->setupMockito();
+        
 
         $this->dbManager->shouldReceive('realizeQuery')
                         ->with($query)

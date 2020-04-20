@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: jonathaneduardo
- * Date: 09/04/2016
- * Time: 02:11 PM
- */
-
 require_once("DataBaseManager.php");
 
 class UserManager{
@@ -20,45 +13,55 @@ class UserManager{
         $this->dbManager->close();
         self::$_instance = null;
     }
-    public function setDBManager($newDBManager){
-        $this->dbManager = $newDBManager;
-    }
+
     public static function getInstance(){
         if(self::$_instance == null){
             self::$_instance = new UserManager();
         }
         return self::$_instance;
     }
-
+    public function setDBManager($newDBManager){
+        $this->dbManager = $newDBManager;
+    }
     public function setUser($name, $password, $tipo){
-        $query ="";
-        if (!(is_null($name) || is_null($password) || is_null($tipo))){
-            $query = "INSERT INTO usuario (nombre, clave, tipo) VALUES('$name','$password','$tipo')";
-        }
+        $query = "INSERT INTO usuario (nombre, clave, tipo) VALUES('$name','$password','$tipo')";
 
         $resultado = $this->dbManager->insertQuery($query);
-        return $resultado;
+
+        if(!is_bool($resultado)){
+            return $resultado;
+        }
+        return "";
+
     }
 
     public function updateUser($id,$name, $password, $tipo){
-        $query ="";
-        if (!(is_null($id) || is_null($name) || is_null($password) || is_null($tipo))){
-         $query = "UPDATE usuario set nombre = '$name' , clave = '$password' , tipo = '$tipo' WHERE id=".intval($id);
-        }
+        $query = "UPDATE usuario set nombre = '$name' , clave = '$password' , tipo = '$tipo' WHERE id=".intval($id);
+
         $resultado = $this->dbManager->insertQuery($query);
 
-        return $resultado;
+        if(!is_bool($resultado)){
+            return $resultado;
+        }
+        return "";
     }
 
     public function getUser($name, $password){
-        $query="";
-        if(!( is_null($name) || is_null($password))){
-            $query = "SELECT * FROM usuario WHERE nombre='$name' AND clave='$password'";
-        }
+        $query = "SELECT * FROM usuario WHERE nombre='$name' AND clave='$password'";
 
         $resultado = $this->dbManager->realizeQuery($query);
 
-        return $resultado;
+        if($resultado == null){
+            return "Tabla usuario vacia";
+        }
+        else{
+            if(is_array($resultado)){
+                return json_encode($resultado);
+            }
+            else{
+                return $resultado->num_rows;
+            }
+        }
     }
 
     function getUserById($id){
@@ -66,18 +69,29 @@ class UserManager{
 
         $resultado = $this->dbManager->realizeQuery($query);
 
-        return $resultado;
+        if($resultado == null){
+            return "Tabla usuario vacia";
+        }
+        else{
+            if(is_array($resultado)){
+                return json_encode($resultado);
+            }
+            else{
+                return $resultado->num_rows;
+            }
+        }
     }
 
     public function deleteUser($UserId){
-        if(is_null($UserId)){
-            return false;
-        }
         $query = "DELETE FROM usuario WHERE id = $UserId";
 
         $resultado = $this->dbManager->insertQuery($query);
 
-        return $resultado;
+        if(!is_bool($resultado)){
+            return $resultado;
+        }
+
+        return "";
     }
 
 
@@ -86,7 +100,18 @@ class UserManager{
 
         $resultado = $this->dbManager->realizeQuery($query);
 
-        return $resultado;
+        if($resultado == null){
+            return "Tabla usuario vacia";
+        }
+        else{
+            if(is_array($resultado)){
+                $usersList[] = $this->setValuesToResult($resultado);
+                return json_encode($usersList);
+            }
+            else{
+                return $resultado->num_rows;
+            }
+        }
     }
 
 
